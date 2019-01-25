@@ -151,7 +151,7 @@ test(11).
 
 % 3333333333333333333333333333333333333333333333333333333333
 
-% Add testing for set membership to they ssytem
+% Add testing for set membership to they system
 % Hint: extend the "b4" clauses
 
 
@@ -182,12 +182,17 @@ testNepotism :-
 % Write rules and "test" facts to show that you can handle
 % "or" and "not"
 
+%ADD IN TESTS
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % you should use the following code.
 % WARNING: the code for "had" is incomplete
 
 had(X and Y)      :- had(X), had(Y).
 had(X =Id had Y)  :- fact(X,Id,Fs),  b4(Y,Fs).
+had(X or Y)       :- had(X); had(Y).   %Use ; to show different possibilities
+had(not X)        :- \+ had(X).        % \+ is the symbol for not
+
 
 b4(X had Y,Fs)    :- b4(X,Fs), b4(Y,Fs).
 b4(X =  Y, Fs)    :- member(X=Y,Fs).
