@@ -105,7 +105,7 @@ rule 11 if emp = _ had job =_ then b.
 % "X had Y" is inside "or"
 rule 12 if a or emp = _ had job=_ then b.
 
-% "X had Y" is inside "amd"
+% "X had Y" is inside "and"
 rule 13 if a or b and emp = _ had job=_ then c.
 
 % there can be multiple "had" tests
@@ -190,12 +190,16 @@ testNepotism :-
 
 had(X and Y)      :- had(X), had(Y).
 had(X =Id had Y)  :- fact(X,Id,Fs),  b4(Y,Fs).
-had(X or Y)       :- had(X); had(Y).   %Use ; to show different possibilities
+had(X or Y)       :- had(X); had(Y).   % Use ; to show different possibilities
 had(not X)        :- \+ had(X).        % \+ is the symbol for not
 
 
 b4(X had Y,Fs)    :- b4(X,Fs), b4(Y,Fs).
 b4(X =  Y, Fs)    :- member(X=Y,Fs).
+
+b4(X in [Y,T])    :- X = Y; member(X, T).
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % This is a complete implementation of "has"
