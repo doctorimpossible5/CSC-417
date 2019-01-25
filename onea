@@ -71,7 +71,7 @@ main:- tests, testNepotism.
 :- op(901,xfx,  then).
 :- op(850,fx,  rule).
 :- op(895,xfy,  and).
-:- op(896,yfx, or).
+:- op(892,yfx, or).
 :- op(890,fy, not).
 :- op(894,xfy,  had).
 :- op(860,xfy,  in).
@@ -120,6 +120,20 @@ rule 16 if
      job = J had salary =< 10000 
 then c.
 
+% Rule to test or inside had
+rule 17 if emp = _ had job =_ or mother = _ then b.
+
+% Rule to continue testing set membership
+rule 18 if emp = jane had job in [president, cook, cleaner] then b.
+
+% Rule to continue testing set membership
+rule 19 if emp = jane had job in [cook, cleaner, president] then b.
+
+% Rules to test "=", "\=", ">", "<", ">=", "=<"
+rule 20 if job = cleaner had salary = 10000 then b.
+rule 21 if job = cleaner had salary >= 9000 then b.
+rule 22 if job = cleaner had salary =< 11000 then b.
+
 % "has" does updates.
 % but this time, "=" means "change that field"  (and  "in,<,>,\=" etc are
 % not supported"
@@ -156,6 +170,8 @@ test(11).
 
 
 test(15).
+test(18).
+test(19).
 
 % 4444444444444444444444444444444444444444444444444444444444
 
@@ -163,6 +179,10 @@ test(15).
 % Hint: extend the "b4" clauses
 
 test(16).
+test(20).
+test(21).
+test(22).
+test(17).
 
 % 5555555555555555555555555555555555555555555555555555555555
 
@@ -182,7 +202,6 @@ testNepotism :-
 % Write rules and "test" facts to show that you can handle
 % "or" and "not"
 
-%ADD IN TESTS
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % you should use the following code.
@@ -190,15 +209,18 @@ testNepotism :-
 
 had(X and Y)      :- had(X), had(Y).
 had(X =Id had Y)  :- fact(X,Id,Fs),  b4(Y,Fs).
-had(X or Y)       :- had(X); had(Y).   % Use ; to show different possibilities
-had(not X)        :- \+ had(X).        % \+ is the symbol for not
-
+had(X or Y)       :- had(X); had(Y).   
+% Use ; to show different possibilities
+had(not X)        :- \+ had(X).        
+% \+ is the symbol for not
 
 b4(X had Y,Fs)    :- b4(X,Fs), b4(Y,Fs).
-b4(X =  Y, Fs)    :- member(X=Y,Fs).
-
-b4(X in [Y,T])    :- X = Y; member(X, T).
-
+b4(X = Y, Fs)     :- member(X=Y,Fs).
+b4(X =< Y, Fs)    :- member(X=Y,Fs), member(X<Y,Fs). 
+b4(X >= Y, Fs)    :- member(X=Y,Fs), member(X>Y,Fs). 
+b4(X in Y, Fs)    :- member(M, Y), member(X=M,Fs). 
+% First gets a member of Y, then checks to see if X equals that member.
+%If they don't match then it goes back and finds a new member and tries again.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
