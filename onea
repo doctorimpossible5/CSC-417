@@ -120,9 +120,6 @@ rule 16 if
      job = J had salary =< 10000 
 then c.
 
-% Rule to test or inside had
-rule 17 if emp = _ had job =_ or mother = _ then b.
-
 % Rule to continue testing set membership
 rule 18 if emp = jane had job in [president, cook, cleaner] then b.
 
@@ -133,6 +130,11 @@ rule 19 if emp = jane had job in [cook, cleaner, president] then b.
 rule 20 if job = cleaner had salary = 10000 then b.
 rule 21 if job = cleaner had salary >= 9000 then b.
 rule 22 if job = cleaner had salary =< 11000 then b.
+rule 23 if job = cleaner had salary > 9000 then b.
+rule 24 if job = cleaner had salary < 11000 then b.
+
+% Rule to test or inside had
+rule 25 if emp = _ had job =_ or mother = _ then b.
 
 % "has" does updates.
 % but this time, "=" means "change that field"  (and  "in,<,>,\=" etc are
@@ -182,7 +184,11 @@ test(16).
 test(20).
 test(21).
 test(22).
-test(17).
+test(23).
+test(24).
+
+% Tests for "or" and "not" in "had"
+test(25).
 
 % 5555555555555555555555555555555555555555555555555555555555
 
@@ -202,6 +208,7 @@ testNepotism :-
 % Write rules and "test" facts to show that you can handle
 % "or" and "not"
 
+% See test 25 and 26
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % you should use the following code.
@@ -216,8 +223,11 @@ had(not X)        :- \+ had(X).
 
 b4(X had Y,Fs)    :- b4(X,Fs), b4(Y,Fs).
 b4(X = Y, Fs)     :- member(X=Y,Fs).
-b4(X =< Y, Fs)    :- member(X=Y,Fs), member(X<Y,Fs). 
-b4(X >= Y, Fs)    :- member(X=Y,Fs), member(X>Y,Fs). 
+b4(X > Y, Fs)     :- member(X=M,Fs), M>Y.
+b4(X < Y, Fs)     :- member(X=M,Fs), M<Y.
+b4(X =< Y, Fs)    :- member(X=M,Fs), M=<Y. 
+b4(X >= Y, Fs)    :- member(X=M,Fs), M>=Y. 
+b4(X \= Y, Fs)    :- member(X=M,Fs), M\=Y. 
 b4(X in Y, Fs)    :- member(M, Y), member(X=M,Fs). 
 % First gets a member of Y, then checks to see if X equals that member.
 %If they don't match then it goes back and finds a new member and tries again.
