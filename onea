@@ -71,7 +71,7 @@ main:- tests, testNepotism.
 :- op(901,xfx,  then).
 :- op(850,fx,  rule).
 :- op(895,xfy,  and).
-:- op(892,yfx, or).
+:- op(898,yfx, or).
 :- op(890,fy, not).
 :- op(894,xfy,  had).
 :- op(860,xfy,  in).
@@ -133,8 +133,9 @@ rule 22 if job = cleaner had salary =< 11000 then b.
 rule 23 if job = cleaner had salary > 9000 then b.
 rule 24 if job = cleaner had salary < 11000 then b.
 
-% Rule to test or inside had
-rule 25 if emp = _ had job =_ or mother = _ then b.
+% Rule to test or and not
+rule 25 if job = cleaner had (salary > 11000 or salary < 9000) then b.
+rule 26 if job = cleaner had not (salary => 11000) then b.
 
 % "has" does updates.
 % but this time, "=" means "change that field"  (and  "in,<,>,\=" etc are
@@ -187,8 +188,9 @@ test(22).
 test(23).
 test(24).
 
-% Tests for "or" and "not" in "had"
-test(25).
+% Tests for "or" and "not"
+%test(25).
+%test(26).
 
 % 5555555555555555555555555555555555555555555555555555555555
 
