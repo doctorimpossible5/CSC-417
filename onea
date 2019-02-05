@@ -135,7 +135,7 @@ rule 24 if job = cleaner had salary < 11000 then b.
 
 % Rule to test or and not
 rule 25 if job = cleaner had (salary > 11000 or salary < 9000) then b.
-rule 26 if job = cleaner had not (salary => 11000) then b.
+rule 26 if job = cleaner had not (salary >= 11000) then b.
 
 % "has" does updates.
 % but this time, "=" means "change that field"  (and  "in,<,>,\=" etc are
