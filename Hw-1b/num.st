@@ -57,24 +57,37 @@ nextRemoveAll: aCollection
 "-------------------------------------------------------"
 ! Collection methods !
 b4Now: aBlock
-    | parent gparent |
+    | current previous |
     (self size >= 2)
         ifTrue: [
-            parent := 0.
-            gparent := 0.
+            current := 0.
+            previous := 0.
             self do: [ :element |
-                (gparent >= 1)
+                (current >= 1)
                     ifTrue: [ 
-                        gparent := parent.
-                        parent := element.
-                        (aBlock value: parent value: gparent). 
+                        previous := current.
+                        current := element.
+                        (aBlock value: previous value: current). 
                         "'enters' displayN1."
                     ]
-                    ifFalse: [gparent := element]
+                    ifFalse: [current := element]
             ]. 
         ].!
 
        
-Visit: aBlock
+visit: aBlock
     self do: [:i | i visit: aBlock] !
+!!
+
+"-------------------------------------------------------"
+! Object methods !
+
+visit: aBlock
+    aBlock value:self !
+!!
+
+"-------------------------------------------------------"
+! String methods !
+visit: aBlock
+    aBlock value: self !
 !!
