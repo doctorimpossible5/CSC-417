@@ -68,7 +68,6 @@ b4Now: aBlock
                         previous := current.
                         current := element.
                         (aBlock value: previous value: current). 
-                        "'enters' displayN1."
                     ]
                     ifFalse: [current := element]
             ]. 
