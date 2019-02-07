@@ -53,3 +53,21 @@ nextRemoveAll: aCollection
     aCollection do:[:a | self numDec: a]. !
 
 !!
+
+"-------------------------------------------------------"
+! Collection methods !
+b4Now: aBlock
+    | parent gparent |
+    (self size >= 2)
+        ifTrue: [
+            parent := 0.
+            gparent := 0.
+            self do: [ :element |
+                (gparent > 0)
+                    ifTrue: [ 
+                        "(aBlock value: parent gparent)."
+                    ]
+                    ifFalse: [gparent := element]
+            ]. 
+        ].!
+!!
