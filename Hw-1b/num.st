@@ -63,9 +63,10 @@ b4Now: aBlock
             parent := 0.
             gparent := 0.
             self do: [ :element |
-                (gparent > 0)
+                (gparent >= 1)
                     ifTrue: [ 
-                        "(aBlock value: parent gparent)."
+                        (aBlock value: parent value: gparent). 'enters' displayN1.
+                        
                     ]
                     ifFalse: [gparent := element]
             ]. 
