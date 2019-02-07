@@ -65,16 +65,10 @@ b4Now: aBlock
             self do: [ :element |
                 (gparent >= 1)
                     ifTrue: [ 
-                        gparent := parent.
-                        parent := element.
-                        (aBlock value: parent value: gparent). 
-                        "'enters' displayN1."
+                        (aBlock value: parent value: gparent). 'enters' displayN1.
+                        
                     ]
                     ifFalse: [gparent := element]
             ]. 
         ].!
-
-       
-Visit: aBlock
-    self do: [:i | i visit: aBlock] !
 !!
