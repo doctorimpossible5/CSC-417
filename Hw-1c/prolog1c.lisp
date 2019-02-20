@@ -174,7 +174,35 @@ need to fix something inside `data0`.
     (chain4 ?x 1)
     (format t "?x in chain4 matches to ~A.~%" ?x))
 )
-    
+
+;--------- --------- --------- --------- --------- --------- ---------
+(defun RECURSE (a pairs)
+      (loop for x in pairs
+        if (eq a (car x))
+        if (eq a (cdr x))
+        return a
+        else return (RECURSE (cdr x) pairs)
+      )
+      return a)
+
+(defun KNOWN (a pairs)
+      (loop for x in pairs
+         if (eq a (car x))
+         return (RECURSE (cdr x) pairs)
+         else return nil))
+
+(KNOWN '?X
+    '((#:?3044 . DEBBIE) (#:?3045 . DONALD) 
+      (?Y . #:?3044) (?X . #:?3045)))
+
+(KNOWN '?Y
+    '((#:?3044 . DEBBIE) (#:?3045 . DONALD) 
+      (?Y . #:?3044) (?X . #:?3045)))
+
+(KNOWN '?X
+     '((#:?3066 . 1) (#:?3063 . 1) (#:?3065 . 1) 
+       (#:?3064 . 1) (#:?3061 . #:?3064)
+       (#:?3062 . 1) (?X . #:?3061)))
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun unify (x y &optional binds)
   (cond 
@@ -261,6 +289,5 @@ need to fix something inside `data0`.
   (sublis (mapcar (lambda (v) (cons v (gensym "?")))
                   (has-vars r))
           r))
-
 
 (test1)
