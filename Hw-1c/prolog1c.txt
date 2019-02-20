@@ -9,4 +9,21 @@ between the key (car, or the first element) and the datum
          (oak . acorns)
          (maple . seeds))
 
-2b.
+1b. The assoc function searches an association and returns
+the first car and cdr pair of elements which satisfy the 
+test argument. 
+
+    In this section of code, it will run through the list
+    and return the pair with r as the car. In this case it
+    will return (r . x)
+    
+1c. The mapcan function takes each element of the provided
+list and applies the provided function. 
+
+    This function has a variety of uses, such as finding all
+    the positive numbers in a list. This would be done with
+    the following: 
+    (mapcan (lambda (x) (if (> x 0) (list x) nil)) '(8 7 6
+    -5 -4 3 -2 1))
+    
+1d.
