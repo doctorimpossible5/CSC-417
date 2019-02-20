@@ -1,0 +1,12 @@
+Problem 1:
+
+1a. An association list is a data structure used to record 
+short, mappings of keys to values. It consists of a list 
+of pairs, with each pair representing an association 
+between the key (car, or the first element) and the datum 
+(cdr, the tail end). 
+    Ex. ((pine . cones)
+         (oak . acorns)
+         (maple . seeds))
+
+2b.
