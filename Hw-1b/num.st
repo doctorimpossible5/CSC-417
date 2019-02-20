@@ -73,7 +73,10 @@ b4Now: aBlock
             ]. 
         ].!
 
-       
+eject: aBlock 
+  ^self select: [:element | (aBlock value: element) not]
+!
+
 visit: aBlock
     self do: [:i | i visit: aBlock] !
 !!
