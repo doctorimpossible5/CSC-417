@@ -184,9 +184,9 @@ need to fix something inside `data0`.
 )
 
 (defun KNOWN (a pairs)
-    (if (not (assoc a pairs)
+    (if (not (assoc a pairs))
          'nil
-         (RECURSE a pairs))
+         (RECURSE a pairs)
     )
 )
 
