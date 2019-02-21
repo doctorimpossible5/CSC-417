@@ -177,19 +177,18 @@ need to fix something inside `data0`.
 
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun RECURSE (a pairs)
-      (loop for x in pairs
-        if (eq a (car x))
-        if (eq a (cdr x))
-        return a
-        else return (RECURSE (cdr x) pairs)
-      )
-      return a)
+    (if (cdr (assoc a pairs))
+        (RECURSE (cdr (assoc a pairs)) pairs)
+        a
+    )
+)
 
 (defun KNOWN (a pairs)
-      (loop for x in pairs
-         if (eq a (car x))
-         return (RECURSE (cdr x) pairs)
-         else return nil))
+    (if (not (assoc a pairs)
+         'nil
+         (RECURSE a pairs))
+    )
+)
 
 (KNOWN '?X
     '((#:?3044 . DEBBIE) (#:?3045 . DONALD) 
