@@ -71,15 +71,15 @@ be found in the car of any list then we set "a", to the cdr of that
 list.  Once that stops recursing, we return the binding "a".
 Otherwise, we return nil.  For example:
   (KNOWN '?X
-    '((#:?3044 . DEBBIE) (#:?3045 . DONALD) 
-      (?Y . #:?3044) (?X . #:?3045))) ==> DONALD
+    '((:?3044 . DEBBIE) (:?3045 . DONALD) 
+      (?Y . :?3044) (?X . :?3045))) ==> DONALD
   (KNOWN '?Y
-    '((#:?3044 . DEBBIE) (#:?3045 . DONALD) 
-      (?Y . #:?3044) (?X . #:?3045))) ==> DEBBIE
+    '((:?3044 . DEBBIE) (:?3045 . DONALD) 
+      (?Y . :?3044) (?X . :?3045))) ==> DEBBIE
   (KNOWN '?X
-     '((#:?3066 . 1) (#:?3063 . 1) (#:?3065 . 1) 
-       (#:?3064 . 1) (#:?3061 . #:?3064)
-       (#:?3062 . 1) (?X . #:?3061))) ==> 1
+     '((:?3066 . 1) (:?3063 . 1) (:?3065 . 1) 
+       (:?3064 . 1) (:?3061 . :?3064)
+       (:?3062 . 1) (?X . :?3061))) ==> 1
 2b. Another missing function is "(has-vars lst)" that
 recursively explores "lst" looking for any symbol that starts
 with "?" (see the "varp" function, below). Please implement:
@@ -177,31 +177,31 @@ need to fix something inside `data0`.
 
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun RECURSE (a pairs)
-    (if (cdr (assoc a pairs))
-        (RECURSE (cdr (assoc a pairs)) pairs)
+    (if (not (assoc a pairs))
         a
+      (RECURSE (cdr (assoc a pairs)) pairs)
     )
 )
 
 (defun KNOWN (a pairs)
     (if (not (assoc a pairs))
-         'nil
-         (RECURSE a pairs)
+        'nil 
+      (RECURSE (cdr (assoc a pairs)) pairs)
     )
-)
+)    
 
 (print (KNOWN '?X
-    '((#:?3044 . DEBBIE) (#:?3045 . DONALD) 
-      (?Y . #:?3044) (?X . #:?3045))) )
+    '((:?3044 . DEBBIE) (:?3045 . DONALD) 
+      (?Y . :?3044) (?X . :?3045))))
 
 (print (KNOWN '?Y
-    '((#:?3044 . DEBBIE) (#:?3045 . DONALD) 
-      (?Y . #:?3044) (?X . #:?3045))))
+    '((:?3044 . DEBBIE) (:?3045 . DONALD) 
+      (?Y . :?3044) (?X . :?3045))))
 
 (print (KNOWN '?X
-     '((#:?3066 . 1) (#:?3063 . 1) (#:?3065 . 1) 
-       (#:?3064 . 1) (#:?3061 . #:?3064)
-       (#:?3062 . 1) (?X . #:?3061))))
+     '((:?3066 . 1) (:?3063 . 1) (:?3065 . 1) 
+       (:?3064 . 1) (:?3061 . :?3064)
+       (:?3062 . 1) (?X . :?3061))))
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun unify (x y &optional binds)
   (cond 
