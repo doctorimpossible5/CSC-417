@@ -271,7 +271,10 @@ need to fix something inside `data0`.
     (or   (ors         (cdr  expr)            binds))
     (not  (negation    (cadr expr)            binds))
     (do   (evals       (cadr expr)            binds))
-    (show (prove1      (car  expr) (cdr expr) binds))
+    ;(>=                                            )
+    ;(>                                             )
+    ;(<                                             )
+    ;(<=                                            )
     (t    (prove1      (car  expr) (cdr expr) binds))))
 
 (defun show (x)
