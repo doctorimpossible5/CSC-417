@@ -149,8 +149,8 @@ need to fix something inside `data0`.
         (male ?x)))
   (<- (sibling ?x ?y) 
       (and (parent ?z ?x)
-           (parent ?z ?y))))
-
+           (parent ?z ?y)
+           (not (= ?x ?y)))))
 
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun test1 ()
@@ -271,7 +271,11 @@ need to fix something inside `data0`.
     (or   (ors         (cdr  expr)            binds))
     (not  (negation    (cadr expr)            binds))
     (do   (evals       (cadr expr)            binds))
+    (show (prove1      (car  expr) (cdr expr) binds))
     (t    (prove1      (car  expr) (cdr expr) binds))))
+
+(defun show (x)
+  (print x))
 
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun ands (goals binds)
