@@ -202,6 +202,7 @@ need to fix something inside `data0`.
      '((:?3066 . 1) (:?3063 . 1) (:?3065 . 1) 
        (:?3064 . 1) (:?3061 . :?3064)
        (:?3062 . 1) (?X . :?3061))))
+(format t "~%")
 ;--------- --------- --------- --------- --------- --------- ---------
 (defun unify (x y &optional binds)
   (cond 
@@ -219,7 +220,41 @@ need to fix something inside `data0`.
 (defun var? (x)
   (and (symbolp x) 
        (eql (char (symbol-name x) 0) #\?)))
+;; ;--------- --------- --------- --------- --------- --------- ---------
+;; (defun visitr (x)
+;;   "generic visitor"
+;;   (print x)
+;;   (if (atom x)
+;;       (print x)
+;;     (dolist (y x) visitr y)))
 
+;; (defun checkVar (subLst)
+;;   (if (atom subLst)
+;;       (if (var? subLst)
+;;           (print subLst))
+;;     (progn
+;;       (setq out nil)
+;;       (dolist (x subLst) (cons (checkVar x) out)))))
+
+(defun visitr (x f)
+  "generic visitor"
+  (if (atom x)
+      (funcall f x)
+      (dolist (y x)
+         (visitr y f))))
+
+(defun selectr (x p  &optional out )
+  "visit, collecting the result"
+  (visitr x (lambda (y)
+               (if (funcall p y)
+                   (pushnew y out))))
+  out)
+
+(defun has-vars (lst)
+    (selectr lst 'var?))
+
+(print (HAS-VARS '(AND (PARENT ?X ?Y) (MALE ?X))) )
+(format t "~%~%")
 ;; does no occur check cause crash?
 ;--------- --------- --------- --------- --------- --------- ---------
 (defmacro query (question &body body)
