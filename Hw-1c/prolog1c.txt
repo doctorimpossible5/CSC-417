@@ -36,4 +36,19 @@ a list of elements and the second tree is the formatting.
 
     An example of this is: (sublis '( (c . d) '(c c))
     
-1f. 
+1f. In prolog, bindings variables are used to assign a 
+value to a variable. This is mostly used when attempting
+to satisfy a query or during the creation of a rule.
+
+1g. '(= ?x ?x) Works because it is a predefined operator
+in lisp. It works by binding both ?xs to a different atom
+and then checking their equality.
+
+1h. (gensym "?") Returns a compltely original symbol that
+is prefaced by :?. 
+
+1i. Renaming is required because if multiple parameters 
+have the same name, then they might get overwritten or 
+accessed at the wrong time.
+
+1j. The ands clause is done in reverse in order to be able to handle 
