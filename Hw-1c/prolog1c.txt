@@ -26,4 +26,14 @@ list and applies the provided function.
     (mapcan (lambda (x) (if (> x 0) (list x) nil)) '(8 7 6
     -5 -4 3 -2 1))
     
-1d.
+1d. 1. (defparameter *hashtable* (make-hash-table))
+    2. (setf (gethash 'entry *hash-table*) "testing")
+    3. (gethash 'entry *hash-table*)
+    
+1e. The function sublis splices two trees together and 
+produces a compltely new tree. The first tree is usally 
+a list of elements and the second tree is the formatting. 
+
+    An example of this is: (sublis '( (c . d) '(c c))
+    
+1f. 
