@@ -51,4 +51,7 @@ is prefaced by :?.
 have the same name, then they might get overwritten or 
 accessed at the wrong time.
 
-1j. The ands clause is done in reverse in order to be able to handle 
+1j. The ands clause is done in reverse in order to be 
+able to handle recursive ands calls. During a recursive 
+call, the first call is the last one to calculated, 
+resulting in the calls being handled backwards.
