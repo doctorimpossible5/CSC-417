@@ -142,29 +142,29 @@ and "datas-as-case" is missing... till you write it.
      (BALANCE (LAMBDA NIL BALANCE)) 
      (INTEREST-RATE (LAMBDA NIL INTEREST-RATE)))
     |#
-    (defmacro datas-as-case (args)
-        (mapcar (lambda (variable)
-            (,variable (lambda nil ,variable)))
+    (defun datas-as-case (args)
+        (mapcar (lambda (data)
+            `(,data (lambda nil ,data)))
             args))
-    #|
     
+    #|
     1d. Implement  "methods-as-case"
      (methods-as-case '((more (x) (+ x 1)) (less (x) (- x 1))))
      ==>
      ((MORE (LAMBDA (X) (+ X 1))) 
       (LESS (LAMBDA (X) (- X 1))))
-    |#
     
-    (defmacro methods-as-case (args)
+    |#
+    (defun methods-as-case (args)
         (mapcar (lambda (variable)
-            (,(car,variable) (lambda ,(cdr,variable) ,(cddr,variable))))
+            `(,(car variable) (lambda ,(cadr variable) ,(caddr variable))))
             args))
     #|
     Now that that is working, the following should
     expand nicely:
     |#
     ; but first, uncomment this code
-    '(defthing
+    (defthing
       account
       :has  ((name) (balance 0) (interest-rate .05))
       :does ((withdraw (amt)
@@ -175,14 +175,39 @@ and "datas-as-case" is missing... till you write it.
                        (incf balance
                              (* interest-rate balance)))))
     #|
-    TODO 1e. Show the result of expanding you account.
+    1e. Show the result of expanding you account.
+
+	#<function :lambda (#:message3211)
+	  (case #:message3211
+	   (withdraw
+	    (lambda (amt) (decf balance amt)))
+	   (deposit
+	    (lambda (amt) (incf balance amt)))
+	   (interest
+	    (lambda nil
+	     (incf balance
+	      (* interest-rate balance))))
+	   (name (lambda nil name))
+	   (balance (lambda nil balance))
+	   (interest-rate
+	    (lambda nil interest-rate)))>
 
     |#
-    ; uncomment this to see what an account looks like
-    '(xpand (account))
+    `(xpand (account))
     #|
      
-    TODO 1f.. Show the output from the following function
+    1f.. Show the output from the following function
+    (ENCAPSULATON 105.0 110.25 110.25)
+    (ENCAPSULATION 90.25)
+    (ENCAPSULATION 70.25)
+    (ENCAPSULATION 50.25)
+    (ENCAPSULATION 30.25)
+    (ENCAPSULATION 10.25)
+    (ENCAPSULATION -9.75)
+    (ENCAPSULATION -29.75)
+    (ENCAPSULATION -49.75)
+    (ENCAPSULATION -69.75)
+    (ENCAPSULATION -89.75)
     |#
     (defun encapsulation ()
        (let ((acc (account :balance 100)))
@@ -195,7 +220,7 @@ and "datas-as-case" is missing... till you write it.
                         ,(send acc 'withdraw 20))))
           ))
     ; to run encapuatlion, uncomment the following
-    '(encapsulation)
+    (encapsulation)
     #|
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; POLYMORPHISM
@@ -222,7 +247,7 @@ TODO 2c. Show the output from the following test
 '(polymorphism)
 #|
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;; Inheritance
+;;;; Inhe'ritance
 3. To  make inheritance work, we accumulate the "defthing" specs.
 So when a subclass is created, we include into its definition all
 its details from the superclass.
