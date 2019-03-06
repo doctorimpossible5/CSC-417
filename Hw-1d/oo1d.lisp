@@ -126,8 +126,8 @@ and "datas-as-case" is missing... till you write it.
 1. Make defthing work
     1a. Why does mapcar call #'car over the "has"?
 
-        It runs whatever function is in the car over
-        all the data the lambda contains.
+        It calls #'car because we only want the name of the 
+        variable. We don't need the default value.
         
     1b. Why is message set to a gensym?
         
@@ -135,19 +135,31 @@ and "datas-as-case" is missing... till you write it.
         used in multiple places and not cause a disruption in
         the execution.
         
-TODO 1c. Implement "data-as-case": 
+    1c. Implement "data-as-case": 
     (datas-as-case '(name balance interest-rate))
     ==>
     ((NAME (LAMBDA NIL NAME)) 
      (BALANCE (LAMBDA NIL BALANCE)) 
      (INTEREST-RATE (LAMBDA NIL INTEREST-RATE)))
+    |#
+    (defmacro datas-as-case (args)
+        (mapcar (lambda (variable)
+            (,variable (lambda nil ,variable)))
+            args))
+    #|
     
-1d. Implement  "methods-as-case"
+    1d. Implement  "methods-as-case"
      (methods-as-case '((more (x) (+ x 1)) (less (x) (- x 1))))
      ==>
      ((MORE (LAMBDA (X) (+ X 1))) 
       (LESS (LAMBDA (X) (- X 1))))
-     
+    |#
+    
+    (defmacro methods-as-case (args)
+        (mapcar (lambda (variable)
+            (,(car,variable) (lambda ,(cdr,variable) ,(cddr,variable))))
+            args))
+    #|
 Now that that is working, the following should
 expand nicely:
 |#
@@ -164,6 +176,7 @@ expand nicely:
                          (* interest-rate balance)))))
 #|
 TODO 1e. Show the result of expanding you account.
+
 |#
 ; uncomment this to see what an account looks like
 '(xpand (account))
