@@ -124,8 +124,17 @@ and "datas-as-case" is missing... till you write it.
 #|
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 1. Make defthing work
-TODO 1a. Why does mapcar call #'car over the "has"?
-TODO 1b. Why is message set to a gensym?
+    1a. Why does mapcar call #'car over the "has"?
+
+        It runs whatever function is in the car over
+        all the data the lambda contains.
+        
+    1b. Why is message set to a gensym?
+        
+        A new symbol is generated for message so that it can be
+        used in multiple places and not cause a disruption in
+        the execution.
+        
 TODO 1c. Implement "data-as-case": 
     (datas-as-case '(name balance interest-rate))
     ==>
