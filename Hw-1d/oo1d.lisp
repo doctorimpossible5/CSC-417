@@ -160,43 +160,43 @@ and "datas-as-case" is missing... till you write it.
             (,(car,variable) (lambda ,(cdr,variable) ,(cddr,variable))))
             args))
     #|
-Now that that is working, the following should
-expand nicely:
-|#
-; but first, uncomment this code
-'(defthing
-  account
-  :has  ((name) (balance 0) (interest-rate .05))
-  :does ((withdraw (amt)
-                     (decf balance amt))
-         (deposit (amt)
-                  (incf balance amt))
-         (interest ()
-                   (incf balance
-                         (* interest-rate balance)))))
-#|
-TODO 1e. Show the result of expanding you account.
+    Now that that is working, the following should
+    expand nicely:
+    |#
+    ; but first, uncomment this code
+    '(defthing
+      account
+      :has  ((name) (balance 0) (interest-rate .05))
+      :does ((withdraw (amt)
+                         (decf balance amt))
+             (deposit (amt)
+                      (incf balance amt))
+             (interest ()
+                       (incf balance
+                             (* interest-rate balance)))))
+    #|
+    TODO 1e. Show the result of expanding you account.
 
-|#
-; uncomment this to see what an account looks like
-'(xpand (account))
-#|
- 
-TODO 1f.. Show the output from the following function
-|#
-(defun encapsulation ()
-   (let ((acc (account :balance 100)))
-      (print `(encapsulaton 
-                  ,(send acc 'interest)
-                  ,(send acc 'interest)
-                  ,(send acc 'balance)))
-      (dotimes (i 10)
-         (print `(encapsulation 
-                    ,(send acc 'withdraw 20))))
-      ))
-; to run encapuatlion, uncomment the following
-'(encapsulation)
-#|
+    |#
+    ; uncomment this to see what an account looks like
+    '(xpand (account))
+    #|
+     
+    TODO 1f.. Show the output from the following function
+    |#
+    (defun encapsulation ()
+       (let ((acc (account :balance 100)))
+          (print `(encapsulaton 
+                      ,(send acc 'interest)
+                      ,(send acc 'interest)
+                      ,(send acc 'balance)))
+          (dotimes (i 10)
+             (print `(encapsulation 
+                        ,(send acc 'withdraw 20))))
+          ))
+    ; to run encapuatlion, uncomment the following
+    '(encapsulation)
+    #|
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; POLYMORPHISM
 TODO 2a. Define an object "cirle" with variables x,y
