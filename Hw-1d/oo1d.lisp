@@ -320,13 +320,13 @@ object
     (make-about :has has :does does))
 
   `(defun ,klass (&key ,@has) 
-    (let ((,self (lambda (,message)
+    (let ((self (lambda (,message)
       (case ,message
         ,@(methods-as-case does)
         ,@(datas-as-case (mapcar #'car has))))))
-      (send ,self '_self! ,self)
-      (send ,self '_isa! ',klass)
-      ,self))))
+      (send self '_self! self)
+      (send self '_isa! ',klass)
+      self))))
 
 (let ((_counter 0))
   (defun counter () (incf _counter)))
