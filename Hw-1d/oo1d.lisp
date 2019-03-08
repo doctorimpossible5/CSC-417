@@ -334,7 +334,7 @@ object
   (and (symbolp x) 
        (eql (char (symbol-name x) 0) #\_)))
 ; uncomment the following when defklass is implemented
-'(defklass 
+(defklass 
   object 
   :has ((_self)  (_isa) (id (counter)))
   :does (
@@ -348,7 +348,7 @@ object
                           (push `(,one . ,(send _self one)) 
                                 slot-values)))))))
 ; uncomment the following when defklass is implemented
-'(defklass
+(defklass
   account
   :isa object
   :has  ((name) (balance 0) (interest-rate .05))
@@ -362,7 +362,7 @@ object
 ; uncomment this to see what is going on
 '(xpand (account))
 ; uncomment the following when defklass is implemented
-'(defklass
+(defklass
   trimmed-account
   :isa account
   :does ((withdraw (amt)
@@ -380,11 +380,11 @@ object
         (print `(inheritance ,(send acc 'withdraw 20))))
       ))
 ; TODO: 3a show that the following works correctly
-'(inheritance)
+(inheritance)
 '(xpand (trimmed-account))
 ; TODO: 3b. show that the following prints out the slots of an object.
 (defun meta ()
    (let ((acc (trimmed-account)))
       (print `(meta ,(send acc 'show))
    )))
-'(meta)
+(meta)
